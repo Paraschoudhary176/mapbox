@@ -7,10 +7,14 @@ buildscript {
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.24"
     }
+    
     repositories {
+        maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
+        maven { url 'https://www.jitpack.io' }
         google()
         mavenCentral()
     }
+    
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
@@ -19,3 +23,24 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+// Include your project-level allprojects to add Mapbox credentials
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = 'mapbox' // This is a fixed value
+                password = 'pk.eyJ1Ijoic2hlZW5hMjAyNCIsImEiOiJjbHljejRucWgwMGxlMnJxd3YxYnR2ZmF5In0.V5xOrFpmmXijq6nc4lKTsw' // Replace with your actual Mapbox token
+            }
+        }
+        maven { url 'https://www.jitpack.io' }
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
